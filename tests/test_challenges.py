@@ -19,6 +19,7 @@ from ..challenges import (
     is_square,
     is_triangle,
     move_zeros,
+    round_to_significant_figures,
     string_middle,
     unique_in_order,
 )
@@ -183,3 +184,17 @@ def test_arabic_to_roman(number, result):
 )
 def test_unique_in_order(string, result):
     assert unique_in_order(string) == result
+
+
+@pytest.mark.parametrize(
+    "value, result",
+    [
+        ((34.359, 1.046), (34.4, 1.1)),
+        ((10.34592, 0.01578), (10.346, 0.016)),
+        ((0.92765, 0.27302), (0.93, 0.28)),
+        ((4.10967, 0.00783), (4.110, 0.008)),
+        ((4.548, 0.552), (4.5, 0.6)),
+    ],
+)
+def test_round_to_significant_figures(value, result):
+    assert round_to_significant_figures(*value) == result

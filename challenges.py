@@ -3,8 +3,8 @@ A set of challenge functions.
 
 """
 from collections import Counter, OrderedDict
-from math import sqrt
-from typing import Any, List, Union, Tuple
+from math import floor, log10, sqrt
+from typing import Any, List, Tuple, Union
 
 
 def array_diff(array_a: list, array_b: list) -> list:
@@ -19,7 +19,7 @@ def binary_array_to_number(array: List[int]) -> int:
 
 def is_array_squared(array_a: List[int], array_b: List[int]) -> bool:
     """Check whether the second array is equal to the first squared array."""
-    return [i ** 2 for i in array_a] == array_b
+    return [i**2 for i in array_a] == array_b
 
 
 def first_non_repeating_letter(string: str) -> str:
@@ -108,3 +108,13 @@ def unique_in_order(string: str) -> str:
     """Remove duplicated consecutive signs from a given string."""
     result = "".join([i for i, j in zip(string, string[1:] + string[0]) if i != j])
     return result if string[0] != string[-1] else result + string[-1]
+
+
+def round_to_significant_figures(value: float, error: float) -> Tuple[float, float]:
+    """Round value +/- error to significant figures."""
+    exponent = floor(log10(error))
+    significant_digit = floor(error / 10**exponent)
+    exponent = -exponent if significant_digit > 3 else -exponent + 1
+    error += abs(round(value, exponent) - value)
+
+    return round(value, exponent), round(error, exponent)
